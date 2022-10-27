@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: bookwormcap_production
-  username: bookwormcap
-  password: <%= ENV["BOOKWORMCAP_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
