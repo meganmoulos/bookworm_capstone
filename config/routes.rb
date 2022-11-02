@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :books
   resources :users
 
-  get 'authorized_user', to: 'users#show'
+  get '/user', to: 'users#show'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 

@@ -19,3 +19,8 @@ export const nonfictionBooksState = selector({
 })
 
 const fetchAllNonfictionBooks = () => fetch('https://www.googleapis.com/books/v1/volumes?q=london').then(res => res.json())
+
+export const currentUserState = atom({
+    key: 'currentUserState',
+    default: ''
+})

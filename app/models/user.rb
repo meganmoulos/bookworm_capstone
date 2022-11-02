@@ -6,4 +6,9 @@ class User < ApplicationRecord
     has_many :shelves, through: :bookStatuses
 
     has_secure_password
+
+    validates :username, presence: true
+    validates :username, uniqueness: true
+    validates :password, presence: true
+
 end
