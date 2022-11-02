@@ -4,4 +4,6 @@ class User < ApplicationRecord
     has_many :books, through: :reviews
     has_many :books, through: :bookStatuses
     has_many :shelves, through: :bookStatuses
+
+    has_secure_password
 end
