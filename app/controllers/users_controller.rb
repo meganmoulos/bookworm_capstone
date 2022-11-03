@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-
+    
+    skip_before_action :authorize, only: :create
     before_action :find_user, except: [:index, :create] 
 
     def index 
