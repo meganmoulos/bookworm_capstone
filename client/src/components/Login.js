@@ -2,6 +2,10 @@ import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom'
 import {useRecoilState} from 'recoil'
 import {currentUserState} from '../atoms'
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper';
+import Image from '../assets/booksbg2.jpg'
 
 function Login(props) {
     const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
@@ -46,17 +50,35 @@ function Login(props) {
     }
 
     return (
-        <div>
-            <h1>Bookworm</h1>
-            <form onSubmit={onSubmit}>
-                <label>Username</label>
-                <input type='text' name='username' value={username} onChange={handleChange} />
-                <label>Password</label>
-                <input type='text' name='password' value={password} onChange={handleChange} />
-                <input type='submit' value='Log In' />
-            </form>
-            {errors ? <div>{errors}</div> : null}
-        </div>
+        <Paper sx={{ backgroundImage: `url(${Image})`, height: 1350 }}>
+        <Container sx={{
+            marginTop: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        }}>
+            <h1>Login</h1>
+            <Container>
+                <form onSubmit={onSubmit}>
+                    <Box
+                        sx={{
+                            marginTop: 2,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <label>Username</label>
+                        <input type='text' name='username' value={username} onChange={handleChange} />
+                        <label>Password</label>
+                        <input type='text' name='password' value={password} onChange={handleChange} />
+                        <input type='submit' value='Log In' />
+                    </Box>
+                </form>
+                {errors ? <div>{errors}</div> : null}
+            </Container>
+        </Container>
+        </Paper>
     );
 }
 

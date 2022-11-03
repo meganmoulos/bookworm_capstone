@@ -8,7 +8,7 @@ export const fictionBooksState = selector({
     }
 })
 
-const fetchAllFictionBooks = () => fetch('https://www.googleapis.com/books/v1/volumes?q=london+subject:fiction').then(res => res.json())
+const fetchAllFictionBooks = () => fetch('https://www.googleapis.com/books/v1/volumes?q=potter+subject:fiction').then(res => res.json())
 
 export const nonfictionBooksState = selector({
     key: 'nonfictionBooksState',

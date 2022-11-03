@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil'
 import {fictionBooksState} from '../atoms'
 import Book from './Book'
 import Grid from '@mui/material/Grid'
-import Item from '@mui/material/Grid'
+import Container from '@mui/material/Container'
 
 function AllFictionBooks(props) {
     const fictionBooks = useRecoilValue(fictionBooksState)
@@ -12,14 +12,16 @@ function AllFictionBooks(props) {
 
     return (
         <div>
-            <h1>Fiction Books</h1>
-            <Grid container spacing={2}>
-                <Grid xs={8}>
-                    <Item>
-                    {fictionBooks.items.map(book => <Book key={book.id} book={book}/>)}
-                    </Item>
+            <p>Fiction Books</p>
+            <Container>
+                <Grid container spacing={1}>
+                    {fictionBooks.items.map((book) => (
+                        <Grid item md={4} key={book.id}>
+                            <Book key={book.id} book={book}/>
+                        </Grid>))
+                    }
                 </Grid>
-            </Grid>
+            </Container>
         </div>
     );
 }

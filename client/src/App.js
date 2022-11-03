@@ -7,6 +7,7 @@ import Signup from './components/Signup'
 import React from "react";
 import {currentUserState} from './atoms'
 
+
 function App() {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
 
