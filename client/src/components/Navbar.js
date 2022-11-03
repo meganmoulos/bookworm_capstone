@@ -17,7 +17,7 @@ function Navbar(props) {
                 sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
                 display="flex"
             >
-                <Container maxWidth="xl" spacing={1}>
+                <Container maxWidth="xl">
                     <Toolbar disableGutters variant="dense" sx={{ justifyContent: 'space-between' }}>
                         <Box>
                             <Typography
