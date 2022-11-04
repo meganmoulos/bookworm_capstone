@@ -6,23 +6,37 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import TabPanel from '@mui/lab/TabPanel'
 import Typography from '@mui/material/Typography'
+import { DragDropContext } from "react-beautiful-dnd";
+import {useRecoilState} from 'recoil'
+import {shelvesState} from '../atoms'
 
 
 function Home(props) {
     const [query, setQuery] = useState("potter+subject:fiction")
+    const [newShelves, setNewShelves] = useRecoilState(shelvesState)
 
     function handleChange(e, newValue){
         e.preventDefault()
         setQuery(newValue)
     }
 
-    function onDragEnd(result){
-
+    function handleOnDragEnd(result){
+        fetch('/book_statuses/move', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                book_id: result.draggableId,
+                shelf_from_id: result.source.droppableId,
+                shelf_to_id: result.destination.droppableId
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            setNewShelves([...newShelves, data])
+        })
     }
 
     return (
@@ -49,6 +63,7 @@ function Home(props) {
                     </Card>
                 </Grid>
             </Grid>
+            <DragDropContext onDragEnd={handleOnDragEnd}>
             <Grid container item xs={9} sm={9} md={9}>
                 <Grid item>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -68,6 +83,7 @@ function Home(props) {
                     <Shelves />
                 </div>
             </Grid>
+            </DragDropContext>
         </Grid>
     );
 }

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/user', to: 'users#show'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+  post '/book_statuses/move', to: 'book_statuses#move'
 
   get '*path',
   to: 'fallback#index',
