@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import GoogleBooksGrid from './GoogleBooksGrid';
 import Shelves from './Shelves';
 import Container from '@mui/material/Container'
@@ -10,20 +10,30 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography'
 import { DragDropContext } from "react-beautiful-dnd";
-import {useRecoilState} from 'recoil'
-import {shelvesState} from '../atoms'
+import {fetchShelves} from '../atoms'
 
 
 function Home(props) {
     const [query, setQuery] = useState("potter+subject:fiction")
-    const [newShelves, setNewShelves] = useRecoilState(shelvesState)
+    const [newShelves, setNewShelves] = useState([])
 
     function handleChange(e, newValue){
         e.preventDefault()
         setQuery(newValue)
     }
 
+    useEffect(() => {  
+        async function fetchData() {
+            setNewShelves(await fetchShelves())
+        }
+        fetchData()
+    }, [])
+
     function handleOnDragEnd(result){
+        if (result.destination == null){
+            return
+        }
+
         fetch('/book_statuses/move', {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
@@ -35,7 +45,7 @@ function Home(props) {
         })
         .then(res => res.json())
         .then(data => {
-            setNewShelves([...newShelves, data])
+            setNewShelves(data)
         })
     }
 
@@ -80,7 +90,7 @@ function Home(props) {
             </Grid>
             <Grid container item>
                 <div>
-                    <Shelves />
+                    <Shelves newShelves={newShelves} />
                 </div>
             </Grid>
             </DragDropContext>

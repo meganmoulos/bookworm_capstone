@@ -31,4 +31,4 @@ export const shelvesState = selector({
     }
 })
 
-const fetchShelves = () => fetch('/shelves').then(res => res.json())
+export const fetchShelves = () => fetch('/shelves').then(res => res.json())

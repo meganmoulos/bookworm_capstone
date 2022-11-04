@@ -38,8 +38,6 @@ function Navbar(props) {
         setAnchorEl(null)
     }
 
-    console.log(currentUser)
-
     return (
         <Box sx={{flexGrow: 1}}>
             <ThemeProvider theme={theme}>
