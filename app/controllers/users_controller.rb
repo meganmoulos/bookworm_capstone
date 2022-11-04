@@ -13,6 +13,9 @@ class UsersController < ApplicationController
 
     def create 
         user = User.create!(user_params)
+        Shelf.create!(name: 'Want to Read', user_id: user.id)
+        Shelf.create!(name: 'Currently Reading', user_id: user.id)
+        Shelf.create!(name: 'Read', user_id: user.id)
         render json: user, status: :created
     end
 
@@ -35,4 +38,5 @@ class UsersController < ApplicationController
     def user_params
         params.permit(:first_name, :last_name, :image, :username, :email, :password)
     end
+
 end

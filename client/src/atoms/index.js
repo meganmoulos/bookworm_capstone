@@ -1,26 +1,34 @@
-import {atom, selector} from 'recoil'
+import {atom, selector, selectorFamily} from 'recoil'
 
-export const fictionBooksState = selector({
-    key: 'fictionBooksState',
-    get: async () => {
-        const response = await fetchAllFictionBooks()
+export const googleBooksState = selectorFamily({
+    key: 'googleBooksState',
+    get: query => async () => {
+        const response = await fetchAllGoogleBooks(query)
         return response
     }
 })
 
-const fetchAllFictionBooks = () => fetch('https://www.googleapis.com/books/v1/volumes?q=potter+subject:fiction').then(res => res.json())
-
-export const nonfictionBooksState = selector({
-    key: 'nonfictionBooksState',
-    get: async () => {
-        const response = await fetchAllNonfictionBooks()
-        return response
-    }
-})
-
-const fetchAllNonfictionBooks = () => fetch('https://www.googleapis.com/books/v1/volumes?q=london').then(res => res.json())
-
+const fetchAllGoogleBooks = async function (query){
+    const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`)
+    const books = await res.json()
+    books.items = books.items.filter((value, index, self) =>
+    index === self.findIndex((t) => (
+      t.id === value.id
+    ))
+  )
+    return books
+} 
 export const currentUserState = atom({
     key: 'currentUserState',
     default: ''
 })
+
+export const shelvesState = selector({
+    key: 'shelvesState',
+    get: async () => {
+        const response = await fetchShelves()
+        return response
+    }
+})
+
+const fetchShelves = () => fetch('/shelves').then(res => res.json())

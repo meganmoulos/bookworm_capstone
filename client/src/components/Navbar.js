@@ -16,6 +16,7 @@ import {useRecoilState} from 'recoil'
 import {currentUserState} from '../atoms'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+
 const theme = createTheme({
     palette: {
         primary: {

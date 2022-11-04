@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import AllFictionBooks from './AllFictionBooks';
-import WantToReadShelf from './WantToReadShelf';
+import GoogleBooksGrid from './GoogleBooksGrid';
+import Shelves from './Shelves';
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -12,11 +12,17 @@ import Tab from '@mui/material/Tab';
 import TabPanel from '@mui/lab/TabPanel'
 import Typography from '@mui/material/Typography'
 
+
 function Home(props) {
-    const [value, setValue] = useState(0)
+    const [query, setQuery] = useState("potter+subject:fiction")
 
     function handleChange(e, newValue){
-        setValue(newValue)
+        e.preventDefault()
+        setQuery(newValue)
+    }
+
+    function onDragEnd(result){
+
     }
 
     return (
@@ -46,21 +52,20 @@ function Home(props) {
             <Grid container item xs={9} sm={9} md={9}>
                 <Grid item>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={value} onChange={handleChange}>
-                            <Tab label="Fiction" />
-                            <Tab label="Non-Fiction" />
-                            <Tab label="Romance" />
-                            <Tab label="Mystery" />
-                            <Tab label="SciFi & Fantasy" />
+                        <Tabs value={query} onChange={handleChange}>
+                            <Tab label="Fiction" value="potter+subject:fiction" />
+                            <Tab label="Non-Fiction" value="london" />
+                            <Tab label="Romance" value="love+subject:romance" />
+                            <Tab label="Mystery" value="fear+subject:mystery" />
+                            <Tab label="SciFi & Fantasy" value="fear+subject:dragon"/>
                         </Tabs>
                     </Box>
-                    <AllFictionBooks />
+                    <GoogleBooksGrid query={query} />
                 </Grid>
             </Grid>
             <Grid container item>
                 <div>
-                    <p>Want to Read</p>
-                    <WantToReadShelf />
+                    <Shelves />
                 </div>
             </Grid>
         </Grid>

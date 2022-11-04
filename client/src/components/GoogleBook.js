@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 
-function Book({book}) {
+function GoogleBook({book}) {
 
     return (
         <Container>
@@ -28,4 +28,4 @@ function Book({book}) {
     );
 }
 
-export default Book;
+export default GoogleBook;

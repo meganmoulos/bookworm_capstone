@@ -1,5 +1,5 @@
 class BookStatus < ApplicationRecord
-  belongs_to :user_id
-  belongs_to :book_id
-  belongs_to :shelf_id
+  belongs_to :user
+  belongs_to :book
+  belongs_to :shelf
 end
