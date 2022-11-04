@@ -8,21 +8,18 @@ import Container from '@mui/material/Container'
 function AllFictionBooks(props) {
     const fictionBooks = useRecoilValue(fictionBooksState)
 
-    console.log(fictionBooks)
-
     return (
-        <div>
-            <p>Fiction Books</p>
+        <Container>
             <Container>
-                <Grid container spacing={1}>
+                <Grid container spacing={1} padding={1}>
                     {fictionBooks.items.map((book) => (
                         <Grid item md={4} key={book.id}>
                             <Book key={book.id} book={book}/>
-                        </Grid>))
+                        </Grid>)).slice(0, 3)
                     }
                 </Grid>
             </Container>
-        </div>
+        </Container>
     );
 }
 

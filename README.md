@@ -1,24 +1,48 @@
-# README
+## Bookworm Capstone
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[You can see the live app here.](https://bookworm-capstone.onrender.com)
+### Features
+---
+### Installation
+---
+Clone the repo to your local computer and make sure your system is running:
 
-Things you may want to cover:
+- Ruby 3.0.0
+- NodeJS (v14 or higher)
+- npm
+- PostgreSQL
 
-* Ruby version
+In the project directory, run the following steps to get started: 
 
-* System dependencies
+Install the Ruby gem files and packages necessary to run the project with
 
-* Configuration
+`bundle install`
 
-* Database creation
+Then migrate the tables and associations. 
 
-* Database initialization
+`rails db:migrate`
 
-* How to run the test suite
+Once you have your backend setup, start your rails server
 
-* Services (job queues, cache servers, search engines, etc.)
+`rails s`
 
-* Deployment instructions
+To run the front end, use 
 
-* ...
+`npm start --prefix client`
+
+---
+
+### Technologies
+
+1. Ruby on Rails for the backend
+2. React for the frontend
+3. Recoil for state management
+4. Material UI for the design
+5. BCrypt for authentication and authorization
+
+---
+
+### Creator
+
+Megan Moulos
+meganmoulos@gmail.com

@@ -18,8 +18,6 @@ function Login(props) {
     const history = useHistory()
     const {username, password} = formData
 
-    console.log(currentUser)
-
     function onSubmit(e){
         e.preventDefault()
         const user = {

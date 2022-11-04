@@ -6,6 +6,7 @@ import Login from "./components/Login"
 import Signup from './components/Signup'
 import React from "react";
 import {currentUserState} from './atoms'
+import Container from '@mui/material/Container'
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
       <React.Suspense fallback={<div>Loading...</div>}>
         <BrowserRouter>
           <Navbar />
-          <div className="App">
+          <Container className="App">
             <Switch>
               <Route exact path="/" render={() => {
                 return (
@@ -36,7 +37,7 @@ function App() {
                 <Signup />
               </Route>
             </Switch>
-          </div>
+          </Container>
         </BrowserRouter>
       </React.Suspense>
     </RecoilRoot>
