@@ -12,6 +12,7 @@ import Container from '@mui/material/Container'
 function App() {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
 
+  console.log(currentUser)
   return (
     <RecoilRoot>
       <React.Suspense fallback={<div>Loading...</div>}>

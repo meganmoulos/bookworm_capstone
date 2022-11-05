@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   resources :books
   resources :users
 
-  get '/user', to: 'users#show'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   post '/book_statuses/move', to: 'book_statuses#move'
+  get '/sessions/current', to: 'sessions#current'
 
   get '*path',
   to: 'fallback#index',

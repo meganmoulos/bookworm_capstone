@@ -18,10 +18,16 @@ const fetchAllGoogleBooks = async function (query){
   )
     return books
 } 
-export const currentUserState = atom({
+
+export const currentUserState = selector({
     key: 'currentUserState',
-    default: ''
+    get: async () => {
+        const response = await fetchUser()
+        return response
+    }
 })
+
+export const fetchUser = () => fetch('/sessions/current').then(res => res.json())
 
 export const shelvesState = selector({
     key: 'shelvesState',

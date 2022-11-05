@@ -8,8 +8,6 @@ import Paper from '@mui/material/Paper';
 import Image from '../assets/booksbg2.jpg'
 
 function Login(props) {
-    const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
-
     const [formData, setFormData] = useState({
         username:'',
         password:''
@@ -33,7 +31,6 @@ function Login(props) {
         .then(res => {
             if(res.ok){
                 res.json().then(user => {
-                    setCurrentUser(user)
                     history.push('/home')
                 })
             } else {
