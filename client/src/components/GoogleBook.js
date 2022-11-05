@@ -12,7 +12,9 @@ function GoogleBook({book}) {
                 <Card sx={{ maxWidth: 150 }}>
                     <CardMedia
                         component="img"
-                        image={book.volumeInfo.imageLinks.thumbnail}
+                        image={book.volumeInfo.imageLinks ? 
+                            book.volumeInfo.imageLinks.thumbnail :
+                            null}
                         alt={book.volumeInfo.title}
                     />
                     <CardContent>
