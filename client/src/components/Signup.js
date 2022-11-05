@@ -8,6 +8,7 @@ import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button'
 
+
 const defaultUser = {
     first_name:'',
     last_name:'',
@@ -42,15 +43,15 @@ function Signup(props) {
                 if(res.ok){
                     res.json().then(user => {
                         setCurrentUser(user)
-                        history.push('/')
+                        console.log(currentUser)
                     })
+                    .then(history.push('/home'))
                 } else {
                     res.json().then(json => setErrors(json.errors))
                 }
             })
     }
 
-    console.log(currentUser)
     
     function handleSubmit(e){
         e.preventDefault()

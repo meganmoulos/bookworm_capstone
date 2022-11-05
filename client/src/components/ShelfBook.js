@@ -6,7 +6,7 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 
 function ShelfBook({book}) {
-
+    
     return (
         <Container>
                 <Card sx={{ minWidth: 150 }}>

@@ -22,7 +22,7 @@ const theme = createTheme({
     }
 });
 
-function Navbar({currentUser}) {
+function Navbar({currentUser, setCurrentUser}) {
     const history = useHistory()
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
@@ -39,6 +39,7 @@ function Navbar({currentUser}) {
         fetch('/logout', {
             method: "DELETE"
         })
+        .then(setCurrentUser(null))
         .then(() => history.push('/login'))
     }
 

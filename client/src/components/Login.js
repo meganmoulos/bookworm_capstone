@@ -34,8 +34,8 @@ function Login(props) {
             if(res.ok){
                 res.json().then(user => {
                     setCurrentUser(user)
-                    history.push('/')
                 })
+                .then(history.push('/'))
             } else {
                 res.json().then(json => setErrors(json.errors))
             }

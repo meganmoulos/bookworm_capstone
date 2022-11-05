@@ -16,6 +16,7 @@ class UsersController < ApplicationController
         Shelf.create!(name: 'Want to Read', user_id: user.id)
         Shelf.create!(name: 'Currently Reading', user_id: user.id)
         Shelf.create!(name: 'Read', user_id: user.id)
+        session[:user_id] = user.id
         render json: user, status: :created
     end
 

@@ -7,6 +7,7 @@ import Signup from './components/Signup'
 import React, { useEffect, useState } from "react";
 import {currentUserState} from './atoms'
 import Container from '@mui/material/Container'
+import {isAuthorizedState} from './atoms'
 
 function App() {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
@@ -35,12 +36,12 @@ function App() {
       <React.Suspense fallback={<div>Loading...</div>}>
       {!loading ? 
         <BrowserRouter>
-          <Navbar currentUser={currentUser} />
+          <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
           <Container className="App">
             <Switch>
               <Route exact path="/" render={() => {
                 return (
-                    currentUser ? 
+                    isAuthorizedState ? 
                     <Redirect to="/home" /> :
                     <Redirect to="/login" />
                 )
@@ -48,7 +49,7 @@ function App() {
               </Route>
               <Route exact path="/home" render={() => {
                 return (
-                    currentUser ? 
+                    isAuthorizedState ? 
                     <Home /> :
                     <Redirect to="/login" />
                 )

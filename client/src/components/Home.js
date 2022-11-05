@@ -13,12 +13,14 @@ import { DragDropContext } from "react-beautiful-dnd";
 import {fetchShelves} from '../atoms'
 import {useRecoilValue} from 'recoil'
 import {googleBooksState} from '../atoms'
-
+import {currentlyReading} from '../atoms'
 
 function Home(props) {
     const [query, setQuery] = useState("potter+subject:fiction")
     const [newShelves, setNewShelves] = useState([])
     const googleBooks = useRecoilValue(googleBooksState(query))
+    const currentBook = useRecoilValue(currentlyReading)
+
 
     function handleChange(e, newValue){
         e.preventDefault()

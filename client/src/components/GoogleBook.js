@@ -9,7 +9,7 @@ function GoogleBook({book}) {
 
     return (
         <Container>
-                <Card sx={{ maxWidth: 150 }}>
+                <Card sx={{ maxWidth: 175 }}>
                     <CardMedia
                         component="img"
                         image={book.volumeInfo.imageLinks ? 

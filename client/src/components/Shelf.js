@@ -4,9 +4,8 @@ import Container from '@mui/material/Container'
 import ShelfBook from './ShelfBook'
 import {Draggable} from "react-beautiful-dnd";
 
-
 function Shelf({shelf}) {
-
+  
     return (
         <div>
             <Container>

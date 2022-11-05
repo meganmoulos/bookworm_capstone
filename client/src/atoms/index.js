@@ -24,6 +24,14 @@ export const currentUserState = atom({
     default: null
 })
 
+export const isAuthorizedState = selector({
+    key: 'isAuthorizedState',
+    get: ({get}) => {
+        const userState = get(currentUserState)
+        return !!userState
+    }
+})
+
 export const shelvesState = selector({
     key: 'shelvesState',
     get: async () => {
@@ -33,3 +41,8 @@ export const shelvesState = selector({
 })
 
 export const fetchShelves = () => fetch('/shelves').then(res => res.json())
+
+export const currentlyReading = atom({
+    key: 'currentlyReading',
+    default: null
+})
