@@ -4,6 +4,11 @@ class BooksController < ApplicationController
         render json: Book.all
     end
 
+    def show
+        book = Book.find(params[:id])
+        render json: book
+    end
+
     def create
         book = Book.create!(
             title: params[:book][:volumeInfo][:title],
@@ -26,6 +31,4 @@ class BooksController < ApplicationController
         render json: shelves, status: :ok
     end
    
-    private
-
 end

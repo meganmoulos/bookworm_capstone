@@ -15,7 +15,7 @@ import {useRecoilValue} from 'recoil'
 import {googleBooksState} from '../atoms'
 import {currentlyReading} from '../atoms'
 
-function Home(props) {
+function Home({bookInfo, setBookInfo}) {
     const [query, setQuery] = useState("potter+subject:fiction")
     const [newShelves, setNewShelves] = useState([])
     const googleBooks = useRecoilValue(googleBooksState(query))
@@ -123,7 +123,7 @@ function Home(props) {
                 </Grid>
                 <Grid container item>
                     <div>
-                        <Shelves newShelves={newShelves} />
+                        <Shelves newShelves={newShelves} bookInfo={bookInfo} setBookInfo={setBookInfo} />
                     </div>
                 </Grid>
         </Grid>

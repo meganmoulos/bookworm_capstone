@@ -8,11 +8,13 @@ import React, { useEffect, useState } from "react";
 import {currentUserState} from './atoms'
 import Container from '@mui/material/Container'
 import {isAuthorizedState} from './atoms'
+import BookDetail from "./components/BookDetail";
 
 function App() {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
   const [loading, setLoading] = useState(true)
   const [errors, setErrors] = useState([])
+  const [bookInfo, setBookInfo] = useState({})
 
   useEffect(() => {
     fetch('/sessions/current')
@@ -50,7 +52,7 @@ function App() {
               <Route exact path="/home" render={() => {
                 return (
                     isAuthorizedState ? 
-                    <Home /> :
+                    <Home bookInfo={bookInfo} setBookInfo={setBookInfo}/> :
                     <Redirect to="/login" />
                 )
               }}>
@@ -60,6 +62,9 @@ function App() {
               </Route>
               <Route exact path="/signup">
                 <Signup />
+              </Route>
+              <Route exact path="/books/:id">
+                <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo}/>
               </Route>
             </Switch>
           </Container>
