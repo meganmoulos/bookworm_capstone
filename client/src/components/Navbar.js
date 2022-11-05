@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {NavLink} from 'react-router-dom'
+import {NavLink, useHistory} from 'react-router-dom'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,10 +12,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import {useRecoilState} from 'recoil'
-import {currentUserState} from '../atoms'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 
 const theme = createTheme({
     palette: {
@@ -25,8 +22,8 @@ const theme = createTheme({
     }
 });
 
-function Navbar(props) {
-    const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
+function Navbar({currentUser}) {
+    const history = useHistory()
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
 
@@ -36,6 +33,13 @@ function Navbar(props) {
 
     function handleClose(){
         setAnchorEl(null)
+    }
+
+    function handleLogout(){
+        fetch('/logout', {
+            method: "DELETE"
+        })
+        .then(() => history.push('/login'))
     }
 
     return (
@@ -89,7 +93,7 @@ function Navbar(props) {
                                     <Avatar
                                         sx={{ width: 40, height: 40 }}
                                         alt='profile pic'
-                                        src={currentUser.image}
+                                        src={currentUser ? currentUser.image : null}
                                         onClick={handleClick}
                                         aria-controls={open ? 'account-menu' : undefined}
                                         aria-haspopup="true"
@@ -152,6 +156,7 @@ function Navbar(props) {
                                             <NavLink
                                                 to='/logout'
                                                 exact
+                                                onClick={handleLogout}
                                             >
                                             Logout
                                             </NavLink>

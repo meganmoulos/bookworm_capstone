@@ -6,6 +6,7 @@ import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper';
 import Image from '../assets/booksbg2.jpg'
+import Button from '@mui/material/Button';
 
 function Login(props) {
     const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ function Login(props) {
     const [errors, setErrors] = useState([])
     const history = useHistory()
     const {username, password} = formData
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
 
     function onSubmit(e){
         e.preventDefault()
@@ -31,7 +33,8 @@ function Login(props) {
         .then(res => {
             if(res.ok){
                 res.json().then(user => {
-                    history.push('/home')
+                    setCurrentUser(user)
+                    history.push('/')
                 })
             } else {
                 res.json().then(json => setErrors(json.errors))
@@ -46,33 +49,34 @@ function Login(props) {
 
     return (
         <Paper sx={{ backgroundImage: `url(${Image})`, height: 1350 }}>
-        <Container sx={{
-            marginTop: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        }}>
-            <h1>Login</h1>
-            <Container>
-                <form onSubmit={onSubmit}>
-                    <Box
-                        sx={{
-                            marginTop: 2,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <label>Username</label>
-                        <input type='text' name='username' value={username} onChange={handleChange} />
-                        <label>Password</label>
-                        <input type='text' name='password' value={password} onChange={handleChange} />
-                        <input type='submit' value='Log In' />
-                    </Box>
-                </form>
-                {errors ? <div>{errors}</div> : null}
+            <Container sx={{
+                marginTop: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
+                <h1>Login</h1>
+                <Container sx={{ padding: 3}}>
+                    <form onSubmit={onSubmit}>
+                        <Box
+                            sx={{
+                                marginTop: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <label>Username</label>
+                            <input type='text' name='username' value={username} onChange={handleChange} />
+                            <label>Password</label>
+                            <input type='text' name='password' value={password} onChange={handleChange} />
+                            <Button variant='contained' type='submit' value='Log In'>Log In</Button>
+                        </Box>
+                    </form>
+                    {errors ? <div>{errors}</div> : null}
+                </Container>
+                <Button variant="outlined"><a href='/signup'>Sign Up</a></Button>
             </Container>
-        </Container>
         </Paper>
     );
 }
