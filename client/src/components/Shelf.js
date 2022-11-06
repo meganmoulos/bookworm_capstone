@@ -4,7 +4,7 @@ import Container from '@mui/material/Container'
 import ShelfBook from './ShelfBook'
 import {Draggable} from "react-beautiful-dnd";
 
-function Shelf({shelf, bookInfo, setBookInfo}) {
+function Shelf({shelf, bookInfo, handleBookDetail}) {
   
     return (
         <div>
@@ -16,7 +16,7 @@ function Shelf({shelf, bookInfo, setBookInfo}) {
                             <Draggable key={book.id.toString()} draggableId={book.id.toString()} index={index}>
                                 {(provided) => (
                                     <Grid item md={4} key={book.id} className='drop-list-item list-none text-red-400' ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        <ShelfBook key={book.id} book={book} bookInfo={bookInfo} setBookInfo={setBookInfo}/>
+                                        <ShelfBook key={book.id} book={book} bookInfo={bookInfo} handleBookDetail={handleBookDetail}/>
                                     </Grid>
                                 )}
                             </Draggable>

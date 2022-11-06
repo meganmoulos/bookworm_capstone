@@ -1,20 +1,20 @@
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import {RecoilRoot, useRecoilState} from 'recoil'
+import { Switch, Route, Redirect, useHistory } from "react-router-dom";
+import {RecoilRoot} from 'recoil'
 import Home from './components/Home'
 import Navbar from "./components/Navbar";
 import Login from "./components/Login"
 import Signup from './components/Signup'
 import React, { useEffect, useState } from "react";
-import {currentUserState} from './atoms'
 import Container from '@mui/material/Container'
 import {isAuthorizedState} from './atoms'
 import BookDetail from "./components/BookDetail";
 
 function App() {
-  const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
+  const [currentUser, setCurrentUser] = useState({})
   const [loading, setLoading] = useState(true)
   const [errors, setErrors] = useState([])
   const [bookInfo, setBookInfo] = useState({})
+  let history = useHistory()
 
   useEffect(() => {
     fetch('/sessions/current')
@@ -31,13 +31,26 @@ function App() {
     })
   }, [])
 
-  console.log(currentUser)
+  function handleBookDetail(book){
+    const id = book.id
+    fetch(`/books/${id}`)
+        .then(res => {
+          if(res.ok){
+            res.json().then(data => {
+              setBookInfo(data)
+            })
+            .then(history.push(`/books/${id}`))
+          } else {
+             res.json().then(json => setErrors(json.errors))
+          }
+        })  
+  }
 
   return (
     <RecoilRoot>
       <React.Suspense fallback={<div>Loading...</div>}>
       {!loading ? 
-        <BrowserRouter>
+        <div>
           <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
           <Container className="App">
             <Switch>
@@ -52,23 +65,23 @@ function App() {
               <Route exact path="/home" render={() => {
                 return (
                     isAuthorizedState ? 
-                    <Home bookInfo={bookInfo} setBookInfo={setBookInfo}/> :
+                    <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail}/> :
                     <Redirect to="/login" />
                 )
               }}>
               </Route>
               <Route exact path="/login">
-                <Login />
+                <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>
               </Route>
               <Route exact path="/signup">
                 <Signup />
               </Route>
-              <Route exact path="/books/:id">
-                <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo}/>
+              <Route path="/books/:id">
+                <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
               </Route>
             </Switch>
           </Container>
-        </BrowserRouter>
+        </div>
         : null}
       </React.Suspense>
     </RecoilRoot>

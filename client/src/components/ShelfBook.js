@@ -4,19 +4,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
-import {useHistory} from 'react-router-dom'
 
-function ShelfBook({book, setBookInfo}) {
-    const history = useHistory()
+function ShelfBook({book, handleBookDetail}) {
     
-    function handleBookDetail(book){
-        const id = book.id
-        fetch(`/books/${id}`)
-            .then(res => res.json())
-            .then(data => setBookInfo(data))
-            .then(history.push(`books/${id}`))
-    }
-
     return (
         <Container>
                 <Card sx={{ maxWidth: 175 }} onClick={() => handleBookDetail(book)}>

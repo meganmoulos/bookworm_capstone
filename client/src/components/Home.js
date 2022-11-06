@@ -15,12 +15,11 @@ import {useRecoilValue} from 'recoil'
 import {googleBooksState} from '../atoms'
 import {currentlyReading} from '../atoms'
 
-function Home({bookInfo, setBookInfo}) {
+function Home({bookInfo, setBookInfo, handleBookDetail}) {
     const [query, setQuery] = useState("potter+subject:fiction")
     const [newShelves, setNewShelves] = useState([])
     const googleBooks = useRecoilValue(googleBooksState(query))
     const currentBook = useRecoilValue(currentlyReading)
-
 
     function handleChange(e, newValue){
         e.preventDefault()
@@ -33,9 +32,6 @@ function Home({bookInfo, setBookInfo}) {
         }
         fetchData()
     }, [])
-
-
-    // If the book is being saved from Google API save to backend, if it is just moving from one shelf to another it doesn't need to be saved 
 
     function handleOnDragEnd(result){
         // If dragged outside of a droppable
@@ -123,7 +119,7 @@ function Home({bookInfo, setBookInfo}) {
                 </Grid>
                 <Grid container item>
                     <div>
-                        <Shelves newShelves={newShelves} bookInfo={bookInfo} setBookInfo={setBookInfo} />
+                        <Shelves newShelves={newShelves} bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail} />
                     </div>
                 </Grid>
         </Grid>

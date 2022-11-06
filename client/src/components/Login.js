@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom'
-import {useRecoilState} from 'recoil'
-import {currentUserState} from '../atoms'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper';
 import Image from '../assets/booksbg2.jpg'
 import Button from '@mui/material/Button';
 
-function Login(props) {
+function Login({currentUser, setCurrentUser}) {
     const [formData, setFormData] = useState({
         username:'',
         password:''
@@ -16,7 +14,6 @@ function Login(props) {
     const [errors, setErrors] = useState([])
     const history = useHistory()
     const {username, password} = formData
-    const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
 
     function onSubmit(e){
         e.preventDefault()
