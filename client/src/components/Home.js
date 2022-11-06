@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography'
@@ -13,14 +14,13 @@ import { DragDropContext } from "react-beautiful-dnd";
 import {fetchShelves} from '../atoms'
 import {useRecoilValue} from 'recoil'
 import {googleBooksState} from '../atoms'
-import {currentlyReading} from '../atoms'
+
 
 function Home({bookInfo, setBookInfo, handleBookDetail}) {
     const [query, setQuery] = useState("potter+subject:fiction")
     const [newShelves, setNewShelves] = useState([])
     const googleBooks = useRecoilValue(googleBooksState(query))
-    const currentBook = useRecoilValue(currentlyReading)
-
+    
     function handleChange(e, newValue){
         e.preventDefault()
         setQuery(newValue)
@@ -77,6 +77,19 @@ function Home({bookInfo, setBookInfo, handleBookDetail}) {
         }
     }
 
+    let currentBook = {}
+    let currentBooks = []
+    
+    if (newShelves.length > 0) {
+        currentBooks = newShelves[1].books
+    }
+
+    if (currentBooks.length > 0){
+       currentBook = currentBooks[0]
+    }
+
+    console.log(currentBook)
+
     return (
         <DragDropContext onDragEnd={handleOnDragEnd}>
             <Grid container item
@@ -92,12 +105,19 @@ function Home({bookInfo, setBookInfo, handleBookDetail}) {
                     <Grid item sx={{flexGrow: 1}}>
                         <p>Currently Reading</p>
                         <Card>
+                            <CardMedia
+                                component="img"
+                                image={currentBook.cover_image ? 
+                                    currentBook.cover_image :
+                                    null}
+                                alt={currentBook.title}
+                            />
                             <CardContent>
                                 <Typography gutterBottom variant="body1" component="div">
-                                    Title
+                                    {currentBook.title}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    Author
+                                    {currentBook.author}
                                 </Typography>
                                 </CardContent>
                         </Card>
@@ -118,9 +138,9 @@ function Home({bookInfo, setBookInfo, handleBookDetail}) {
                     </Grid>
                 </Grid>
                 <Grid container item>
-                    <div>
-                        <Shelves newShelves={newShelves} bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail} />
-                    </div>
+                    <Container>
+                        <Shelves newShelves={newShelves} handleBookDetail={handleBookDetail} />
+                    </Container>
                 </Grid>
         </Grid>
     </DragDropContext>

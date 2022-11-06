@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom'
-import {useRecoilState} from 'recoil'
-import {currentUserState} from '../atoms'
 import Image from '../assets/booksbg2.jpg'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
@@ -18,10 +16,9 @@ const defaultUser = {
     image:''
 }
 
-function Signup(props) {
+function Signup({currentUser, setCurrentUser}) {
     const [formData, setFormData] = useState(defaultUser)
     const [errors, setErrors] = useState([])
-    const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
     const history = useHistory()
 
     function createUser(user){

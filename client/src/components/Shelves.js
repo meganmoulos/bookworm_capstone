@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import Shelf from './Shelf';
 import {Droppable} from "react-beautiful-dnd";
 
-function Shelves({newShelves, bookInfo, setBookInfo, handleBookDetail}) {
+function Shelves({newShelves, handleBookDetail}) {
 
     return (
         <div>
@@ -17,7 +17,7 @@ function Shelves({newShelves, bookInfo, setBookInfo, handleBookDetail}) {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                             >
-                            <Shelf key={shelf.id} shelf={shelf} bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail}/>
+                            <Shelf key={shelf.id} shelf={shelf} handleBookDetail={handleBookDetail}/>
                             {provided.placeholder}
                             </div>
                             )

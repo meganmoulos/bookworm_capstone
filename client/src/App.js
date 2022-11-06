@@ -16,6 +16,7 @@ function App() {
   const [bookInfo, setBookInfo] = useState({})
   let history = useHistory()
 
+ 
   useEffect(() => {
     fetch('/sessions/current')
     .then(res => {
@@ -74,7 +75,7 @@ function App() {
                 <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>
               </Route>
               <Route exact path="/signup">
-                <Signup />
+                <Signup currentUser={currentUser} setCurrentUser={setCurrentUser} />
               </Route>
               <Route path="/books/:id">
                 <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>

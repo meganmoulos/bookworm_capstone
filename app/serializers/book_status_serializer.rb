@@ -1,6 +1,6 @@
 class BookStatusSerializer < ActiveModel::Serializer
-  attributes :id
-  has_one :user_id
-  has_one :book_id
-  has_one :shelf_id
+  attributes :id, :user_id, :shelf_id, :book_id
+  has_one :user
+  has_one :book
+  has_one :shelf
 end

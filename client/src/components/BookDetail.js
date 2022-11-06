@@ -7,8 +7,6 @@ import Review from './Review';
 
 function BookDetail({bookInfo, currentUser, setCurrentUser}) {
 
-    console.log(bookInfo)
-
     return (
         <Container sx={{ width: 600 }}>
             <Paper elevation={2}>
