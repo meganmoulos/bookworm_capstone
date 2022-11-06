@@ -9,7 +9,7 @@ function ShelfBook({book, handleBookDetail}) {
     
     return (
         <Container>
-                <Card sx={{ maxWidth: 175 }} onClick={() => handleBookDetail(book)}>
+                <Card sx={{ maxWidth: 200 }} onClick={() => handleBookDetail(book)}>
                     <CardMedia
                         component="img"
                         image={book.cover_image}

@@ -18,6 +18,10 @@ const theme = createTheme({
     palette: {
         primary: {
           main: '#fff',
+          black: '#000'
+        },
+        secondary: {
+            main: '#fff9f0'
         }
     }
 });
@@ -48,26 +52,28 @@ function Navbar({currentUser, setCurrentUser}) {
             <ThemeProvider theme={theme}>
                 <AppBar
                     position="static"
-                    color="primary"
                     elevation={0}
                     sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
                     display="flex"
+                    color='secondary'
                 >
                     <Container maxWidth="xl">
                         <Toolbar disableGutters variant="dense" sx={{ justifyContent: 'space-between' }}>
                             <Box>
                                 <Typography
                                     variant="h6"
+                                    theme={theme}
                                     sx={{
                                     mr: 2,
                                     fontWeight: 700,
-                                    color: 'inherit',
-                                    textDecoration: 'none',
+                                    color: 'black',
+                                    textDecoration: 'none'
                                     }}
                                 >
                                     <NavLink
                                         to='/home'
                                         exact
+                                        style = {{textDecoration: 'none', color: 'black'}}
                                     >
                                         <p>BOOKWORM</p>
                                     </NavLink>
@@ -78,6 +84,7 @@ function Navbar({currentUser, setCurrentUser}) {
                                     <NavLink
                                         to='/shelves'
                                         exact
+                                        style = {{textDecoration: 'none', color: 'black'}}
                                     >
                                         My Shelves
                                     </NavLink>
@@ -86,6 +93,7 @@ function Navbar({currentUser, setCurrentUser}) {
                                     <NavLink
                                     to='/cart'
                                     exact
+                                    style = {{textDecoration: 'none', color: 'black'}}
                                     >
                                         Shopping Cart
                                     </NavLink>

@@ -88,7 +88,6 @@ function Home({bookInfo, setBookInfo, handleBookDetail}) {
        currentBook = currentBooks[0]
     }
 
-    console.log(currentBook)
 
     return (
         <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -103,7 +102,7 @@ function Home({bookInfo, setBookInfo, handleBookDetail}) {
             
                 <Grid container item xs={3} sm={3} md={3}> 
                     <Grid item sx={{flexGrow: 1}}>
-                        <p>Currently Reading</p>
+                        <h3>Currently Reading</h3>
                         <Card>
                             <CardMedia
                                 component="img"
