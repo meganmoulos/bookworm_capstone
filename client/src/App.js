@@ -83,7 +83,7 @@ function App() {
                 <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
               </Route>
               <Route exact path="/user">
-                <User currentUser={currentUser}/>
+                <User currentUser={currentUser} setCurrentUser={setCurrentUser}/>
               </Route>
             </Switch>
           </Container>
