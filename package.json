@@ -6,6 +6,8 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/lab": "^5.0.0-alpha.106",
     "@mui/material": "^5.10.12",
+    "@stripe/react-stripe-js": "^1.14.2",
+    "@stripe/stripe-js": "^1.42.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-router-dom": "^5.3.4",
     "react-scripts": "^5.0.1",

@@ -10,6 +10,10 @@ import Paper from '@mui/material/Paper'
 import {isAuthorizedState} from './atoms'
 import BookDetail from "./components/BookDetail";
 import User from "./components/User"
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_w1U3RM7m1e0bfN4il6FiN6jg')
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
@@ -17,7 +21,9 @@ function App() {
   const [errors, setErrors] = useState([])
   const [bookInfo, setBookInfo] = useState({})
   let history = useHistory()
-
+  // const options = {
+  //   clientSecret: '{{CLIENT_SECRET}}'
+  // }
  
   useEffect(() => {
     fetch('/sessions/current')
@@ -54,39 +60,41 @@ function App() {
       <React.Suspense fallback={<div>Loading...</div>}>
       {!loading ? 
         <Paper sx={{backgroundColor: '#fff9f5'}}>
-          <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
-          <Container className="App">
-            <Switch>
-              <Route exact path="/" render={() => {
-                return (
-                    isAuthorizedState ? 
-                    <Redirect to="/home" /> :
-                    <Redirect to="/login" />
-                )
-              }}>
-              </Route>
-              <Route exact path="/home" render={() => {
-                return (
-                    isAuthorizedState ? 
-                    <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail}/> :
-                    <Redirect to="/login" />
-                )
-              }}>
-              </Route>
-              <Route exact path="/login">
-                <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-              </Route>
-              <Route exact path="/signup">
-                <Signup currentUser={currentUser} setCurrentUser={setCurrentUser} />
-              </Route>
-              <Route path="/books/:id">
-                <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-              </Route>
-              <Route exact path="/user">
-                <User currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-              </Route>
-            </Switch>
-          </Container>
+          {/* <Elements stripe={stripePromise} options={options}> */}
+            <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
+            <Container className="App">
+              <Switch>
+                <Route exact path="/" render={() => {
+                  return (
+                      isAuthorizedState ? 
+                      <Redirect to="/home" /> :
+                      <Redirect to="/login" />
+                  )
+                }}>
+                </Route>
+                <Route exact path="/home" render={() => {
+                  return (
+                      isAuthorizedState ? 
+                      <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail}/> :
+                      <Redirect to="/login" />
+                  )
+                }}>
+                </Route>
+                <Route exact path="/login">
+                  <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                </Route>
+                <Route exact path="/signup">
+                  <Signup currentUser={currentUser} setCurrentUser={setCurrentUser} />
+                </Route>
+                <Route path="/books/:id">
+                  <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                </Route>
+                <Route exact path="/user">
+                  <User currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                </Route>
+              </Switch>
+            </Container>
+          {/* </Elements> */}
         </Paper>
         : null}
       </React.Suspense>
