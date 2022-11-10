@@ -12,6 +12,8 @@ import BookDetail from "./components/BookDetail";
 import User from "./components/User"
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
+import ShoppingCart from "./components/ShoppingCart";
+
 
 const stripePromise = loadStripe('pk_test_w1U3RM7m1e0bfN4il6FiN6jg')
 
@@ -20,7 +22,9 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [errors, setErrors] = useState([])
   const [bookInfo, setBookInfo] = useState({})
+  const [currentCart, setCurrentCart] = useState([])
   let history = useHistory()
+  
   // const options = {
   //   clientSecret: '{{CLIENT_SECRET}}'
   // }
@@ -55,6 +59,28 @@ function App() {
         })  
   }
 
+  function handleAddToCart(book){
+    fetch('/cart_items', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+            book_id: book.id,
+            user_id: currentUser.id
+        })
+    })
+    .then(res => res.json())
+    .then(data => setCurrentCart(
+      [...currentCart, data]
+    ))
+  }
+
+  function handleCheckout(){
+    // delete everything from cart_items
+    // stripe
+  }
+
   return (
     <RecoilRoot>
       <React.Suspense fallback={<div>Loading...</div>}>
@@ -75,7 +101,7 @@ function App() {
                 <Route exact path="/home" render={() => {
                   return (
                       isAuthorizedState ? 
-                      <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail}/> :
+                      <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail} currentUser={currentUser} handleAddToCart={handleAddToCart}/> :
                       <Redirect to="/login" />
                   )
                 }}>
@@ -91,6 +117,9 @@ function App() {
                 </Route>
                 <Route exact path="/user">
                   <User currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                </Route>
+                <Route exact path="/cart">
+                  <ShoppingCart currentUser={currentUser} setCurrentUser={setCurrentUser} currentCart={currentCart} handleCheckout={handleCheckout}/>
                 </Route>
               </Switch>
             </Container>

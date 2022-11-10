@@ -4,7 +4,7 @@ import Container from '@mui/material/Container'
 import Shelf from './Shelf';
 import {Droppable} from "react-beautiful-dnd";
 
-function Shelves({newShelves, handleBookDetail}) {
+function Shelves({newShelves, handleBookDetail, currentUser, handleAddToCart}) {
 
     return (
         <div>
@@ -17,7 +17,7 @@ function Shelves({newShelves, handleBookDetail}) {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                             >
-                            <Shelf key={shelf.id} shelf={shelf} handleBookDetail={handleBookDetail}/>
+                            <Shelf key={shelf.id} shelf={shelf} handleBookDetail={handleBookDetail} currentUser={currentUser} handleAddToCart={handleAddToCart}/>
                             {provided.placeholder}
                             </div>
                             )

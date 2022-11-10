@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography'
 
 function GoogleBook({book}) {
-    console.log(book)
+
     return (
         <Card>
             <CardMedia

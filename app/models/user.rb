@@ -5,6 +5,7 @@ class User < ApplicationRecord
     has_many :books, through: :book_statuses
     has_many :book_shelves, through: :book_statuses, source: :shelves
     has_many :shelves, dependent: :destroy
+    has_many :cart_items
 
     has_secure_password
 
