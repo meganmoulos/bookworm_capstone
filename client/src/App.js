@@ -13,9 +13,9 @@ import User from "./components/User"
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 import ShoppingCart from "./components/ShoppingCart";
+import CheckoutForm from "./components/CheckoutForm"
 
-
-const stripePromise = loadStripe('pk_test_w1U3RM7m1e0bfN4il6FiN6jg')
+const stripePromise = loadStripe("pk_test_w1U3RM7m1e0bfN4il6FiN6jg")
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
@@ -24,11 +24,9 @@ function App() {
   const [bookInfo, setBookInfo] = useState({})
   const [currentCart, setCurrentCart] = useState([])
   let history = useHistory()
+  const [clientSecret, setClientSecret] = useState("")
+  let sum = currentCart.reduce((total, currentValue) => total + parseFloat(currentValue.book.price), 0)
   
-  const options = {
-    clientSecret: '{{client_secret}}'
-  }
- 
   useEffect(() => {
     fetch('/sessions/current')
     .then(res => {
@@ -77,16 +75,36 @@ function App() {
   }
 
   function handleCheckout(){
-    // delete everything from cart_items
-    // stripe
+    history.push('/checkout')
   }
 
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    fetch("/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        amount: 50 
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  }, []);
+
+  const appearance = {
+    theme: 'stripe',
+  };
+  const options = {
+    clientSecret,
+    appearance,
+  };
+
+  
   return (
     <RecoilRoot>
       <React.Suspense fallback={<div>Loading...</div>}>
       {!loading ? 
         <Paper sx={{backgroundColor: '#fff9f5'}}>
-          {/* <Elements stripe={stripePromise} options={options}> */}
             <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
             <Container className="App">
               <Switch>
@@ -121,9 +139,15 @@ function App() {
                 <Route exact path="/cart">
                   <ShoppingCart currentUser={currentUser} setCurrentUser={setCurrentUser} currentCart={currentCart} handleCheckout={handleCheckout}/>
                 </Route>
+                <Route>
+                  {clientSecret && (
+                    <Elements stripe={stripePromise} options={options}>
+                      <CheckoutForm />
+                    </Elements>
+                  )}
+                </Route>
               </Switch>
             </Container>
-          {/* </Elements> */}
         </Paper>
         : null}
       </React.Suspense>

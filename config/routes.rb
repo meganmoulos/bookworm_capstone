@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   post '/book_statuses/move', to: 'book_statuses#move'
   get '/sessions/current', to: 'sessions#current'
+  post '/create-payment-intent', to: 'cart_items#paymentintent'
 
   get '*path',
   to: 'fallback#index',
