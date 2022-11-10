@@ -25,9 +25,9 @@ function App() {
   const [currentCart, setCurrentCart] = useState([])
   let history = useHistory()
   
-  // const options = {
-  //   clientSecret: '{{CLIENT_SECRET}}'
-  // }
+  const options = {
+    clientSecret: '{{client_secret}}'
+  }
  
   useEffect(() => {
     fetch('/sessions/current')
