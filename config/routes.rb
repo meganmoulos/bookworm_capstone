@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   post '/book_statuses/move', to: 'book_statuses#move'
   get '/sessions/current', to: 'sessions#current'
   post '/create-payment-intent', to: 'cart_items#paymentintent'
+  delete '/cart_items/destroy', to: 'cart_items#destroy'
 
   get '*path',
   to: 'fallback#index',

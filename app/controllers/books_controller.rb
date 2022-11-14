@@ -12,7 +12,7 @@ class BooksController < ApplicationController
     def create
         book = Book.create!(
             title: params[:book][:volumeInfo][:title],
-            author: params[:book][:volumeInfo][:authors],
+            author: params[:book][:volumeInfo][:authors][0],
             cover_image: params[:book][:volumeInfo][:imageLinks][:thumbnail],
             price: 12.99,
             description: params[:book][:volumeInfo][:description],

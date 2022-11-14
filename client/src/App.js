@@ -76,6 +76,11 @@ function App() {
 
   function handleCheckout(){
     history.push('/checkout')
+    // move this 
+    fetch('/cart_items/destroy', {
+      method: 'DELETE'
+    })
+    .then(setCurrentCart([]))
   }
 
   useEffect(() => {
