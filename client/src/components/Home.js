@@ -16,7 +16,7 @@ import {useRecoilValue} from 'recoil'
 import {googleBooksState} from '../atoms'
 
 
-function Home({handleBookDetail, currentUser, handleAddToCart}) {
+function Home({handleBookDetail, currentUser, handleAddToCart, searchQuery}) {
     const [query, setQuery] = useState("potter+subject:fiction")
     const [newShelves, setNewShelves] = useState([])
     const googleBooks = useRecoilValue(googleBooksState(query))
@@ -87,7 +87,6 @@ function Home({handleBookDetail, currentUser, handleAddToCart}) {
        currentBook = currentBooks[0]
     }
 
-
     return (
         <DragDropContext onDragEnd={handleOnDragEnd}>
             <Grid container item
@@ -116,6 +115,9 @@ function Home({handleBookDetail, currentUser, handleAddToCart}) {
                                 <Typography variant="body2" color="text.secondary">
                                     {currentBook.author}
                                 </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {currentBook.publication_year}
+                                </Typography>
                                 </CardContent>
                         </Card>
                     </Grid>
@@ -128,7 +130,10 @@ function Home({handleBookDetail, currentUser, handleAddToCart}) {
                                 <Tab label="Non-Fiction" value="london" />
                                 <Tab label="Romance" value="love+subject:romance" />
                                 <Tab label="Mystery" value="fear+subject:mystery" />
-                                <Tab label="SciFi & Fantasy" value="fear+subject:dragon"/>
+                                <Tab label="SciFi & Fantasy" value="dragon"/>
+                                {searchQuery ? 
+                                <Tab label="Search" value={searchQuery} />
+                                : null }
                             </Tabs>
                         </Box>
                         <GoogleBooksGrid query={query} />

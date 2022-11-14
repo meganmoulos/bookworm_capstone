@@ -15,9 +15,8 @@ class CartItemsController < ApplicationController
     def paymentintent
         user = @current_user
         items = CartItem.where(user_id: user.id)
-        sum = items.sum()
         payment_intent = Stripe::PaymentIntent.create(
-            amount: (sum * 100),
+            amount: 100,
             currency: 'usd',
             automatic_payment_methods: {
                 enabled: true,

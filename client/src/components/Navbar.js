@@ -13,6 +13,7 @@ import Divider from '@mui/material/Divider';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
 
 const theme = createTheme({
     palette: {
@@ -26,7 +27,7 @@ const theme = createTheme({
     }
 });
 
-function Navbar({currentUser, setCurrentUser}) {
+function Navbar({currentUser, setCurrentUser, searchQuery, setSearchQuery}) {
     const history = useHistory()
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
@@ -80,15 +81,13 @@ function Navbar({currentUser, setCurrentUser}) {
                                 </Typography>
                             </Box>
                             <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
-                                <Typography padding={1}>
-                                    <NavLink
-                                        to='/shelves'
-                                        exact
-                                        style = {{textDecoration: 'none', color: 'black'}}
-                                    >
-                                        My Shelves
-                                    </NavLink>
-                                </Typography>
+                                <TextField 
+                                    id="standard-basic"
+                                    name="search"
+                                    placeholder="Search"
+                                    value={searchQuery}
+                                    onChange={e => setSearchQuery(e.target.value)}
+                                />
                                 <Typography padding={1}>
                                     <NavLink
                                     to='/cart'

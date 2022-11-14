@@ -5,13 +5,14 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 function Review({bookInfo, currentUser}) {
-    const reviews = bookInfo.reviews.length
+    const reviewsLength = bookInfo.reviews.length
     const [errors, setErrors] = useState([])
  
     const [user, setUser] = useState(currentUser)
     const [book, setBook] = useState(bookInfo)
     const [starRating, setStarRating] = useState(0)
     const [userComment, setUserComment] = useState('')
+    const [reviews, setReviews] = useState(bookInfo.reviews)
 
     function handleSubmit(e){
         e.preventDefault()
@@ -30,7 +31,10 @@ function Review({bookInfo, currentUser}) {
         })
         .then(res => {
             if(res.ok){
-                // add something here to rerender
+                res.json().then(data => {
+                    setReviews([...reviews, data])
+                })
+                // how to rerender
             } else {
                 res.json().then(json => setErrors(json.errors))
             }
@@ -39,7 +43,7 @@ function Review({bookInfo, currentUser}) {
 
     return (
         <div>
-            {(reviews > 0) ? 
+            {(reviewsLength > 0) ? 
                 <div>
                     <Rating name="bookrating" value={bookInfo.reviews[0].star_rating} readOnly/>
                     <Typography gutterBottom variant="body2" component="div">
