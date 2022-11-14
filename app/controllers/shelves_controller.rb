@@ -5,5 +5,14 @@ class ShelvesController < ApplicationController
         render json: shelves
     end
 
+    def create
+        shelf = Shelf.create!(shelf_params)
+        render json: shelf, status: :created
+    end
+   
+    private
     
+    def shelf_params
+        params.permit(:name, :user_id)
+    end
 end

@@ -9,6 +9,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography'
 import { DragDropContext } from "react-beautiful-dnd";
 import {fetchShelves} from '../atoms'
@@ -20,6 +21,7 @@ function Home({handleBookDetail, currentUser, handleAddToCart, searchQuery}) {
     const [query, setQuery] = useState("potter+subject:fiction")
     const [newShelves, setNewShelves] = useState([])
     const googleBooks = useRecoilValue(googleBooksState(query))
+    const [newShelf, setNewShelf] = useState('')
     
     function handleChange(e, newValue){
         e.preventDefault()
@@ -87,6 +89,22 @@ function Home({handleBookDetail, currentUser, handleAddToCart, searchQuery}) {
        currentBook = currentBooks[0]
     }
 
+    function handleNewShelf(e){
+        e.preventDefault()
+        fetch('/shelves', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                name: newShelf,
+                user_id: currentUser.id
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            setNewShelves([...newShelves, data])
+        })
+    }
+
     return (
         <DragDropContext onDragEnd={handleOnDragEnd}>
             <Grid container item
@@ -119,6 +137,30 @@ function Home({handleBookDetail, currentUser, handleAddToCart, searchQuery}) {
                                     {currentBook.publication_year}
                                 </Typography>
                                 </CardContent>
+                        </Card>
+                        <Card variant="outlined" sx={{marginTop: 3}}>
+                            <CardContent>
+                                <Typography gutterBottom variant="body1" component="div">
+                                    It's easy! Just drag and drop a book onto one of your shelves below.
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                        <Card variant="outlined" sx={{marginTop: 3}}>
+                            <CardContent>
+                                <Typography gutterBottom variant="body1" component="div">
+                                    Create a Shelf:
+                                </Typography>
+                                <form onSubmit={handleNewShelf}>
+                                    <input 
+                                        type='text'
+                                        value={newShelf}
+                                        onChange={e => setNewShelf(e.target.value)}
+                                    />
+                                    <Button variant='contained' type='submit'>
+                                        Create Shelf
+                                    </Button>
+                                </form>
+                            </CardContent>
                         </Card>
                     </Grid>
                 </Grid>
