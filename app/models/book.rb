@@ -3,4 +3,5 @@ class Book < ApplicationRecord
     has_many :book_statuses
     has_many :users, through: :reviews
     has_many :users, through: :book_statuses
+    has_one :cart_item
 end

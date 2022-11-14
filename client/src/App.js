@@ -10,15 +10,23 @@ import Paper from '@mui/material/Paper'
 import {isAuthorizedState} from './atoms'
 import BookDetail from "./components/BookDetail";
 import User from "./components/User"
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+import ShoppingCart from "./components/ShoppingCart";
+import CheckoutForm from "./components/CheckoutForm"
+
+const stripePromise = loadStripe("pk_test_w1U3RM7m1e0bfN4il6FiN6jg")
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
   const [loading, setLoading] = useState(true)
   const [errors, setErrors] = useState([])
   const [bookInfo, setBookInfo] = useState({})
+  const [currentCart, setCurrentCart] = useState([])
   let history = useHistory()
-
- 
+  const [clientSecret, setClientSecret] = useState("")
+  let sum = currentCart.reduce((total, currentValue) => total + parseFloat(currentValue.book.price), 0)
+  
   useEffect(() => {
     fetch('/sessions/current')
     .then(res => {
@@ -49,44 +57,102 @@ function App() {
         })  
   }
 
+  function handleAddToCart(book){
+    fetch('/cart_items', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+            book_id: book.id,
+            user_id: currentUser.id
+        })
+    })
+    .then(res => res.json())
+    .then(data => setCurrentCart(
+      [...currentCart, data]
+    ))
+  }
+
+  function handleCheckout(){
+    history.push('/checkout')
+    // move this 
+    fetch('/cart_items/destroy', {
+      method: 'DELETE'
+    })
+    .then(setCurrentCart([]))
+  }
+
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    fetch("/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        amount: 50 
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  }, []);
+
+  const appearance = {
+    theme: 'stripe',
+  };
+  const options = {
+    clientSecret,
+    appearance,
+  };
+
+  
   return (
     <RecoilRoot>
       <React.Suspense fallback={<div>Loading...</div>}>
       {!loading ? 
         <Paper sx={{backgroundColor: '#fff9f5'}}>
-          <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
-          <Container className="App">
-            <Switch>
-              <Route exact path="/" render={() => {
-                return (
-                    isAuthorizedState ? 
-                    <Redirect to="/home" /> :
-                    <Redirect to="/login" />
-                )
-              }}>
-              </Route>
-              <Route exact path="/home" render={() => {
-                return (
-                    isAuthorizedState ? 
-                    <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail}/> :
-                    <Redirect to="/login" />
-                )
-              }}>
-              </Route>
-              <Route exact path="/login">
-                <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-              </Route>
-              <Route exact path="/signup">
-                <Signup currentUser={currentUser} setCurrentUser={setCurrentUser} />
-              </Route>
-              <Route path="/books/:id">
-                <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-              </Route>
-              <Route exact path="/user">
-                <User currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-              </Route>
-            </Switch>
-          </Container>
+            <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
+            <Container className="App">
+              <Switch>
+                <Route exact path="/" render={() => {
+                  return (
+                      isAuthorizedState ? 
+                      <Redirect to="/home" /> :
+                      <Redirect to="/login" />
+                  )
+                }}>
+                </Route>
+                <Route exact path="/home" render={() => {
+                  return (
+                      isAuthorizedState ? 
+                      <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail} currentUser={currentUser} handleAddToCart={handleAddToCart}/> :
+                      <Redirect to="/login" />
+                  )
+                }}>
+                </Route>
+                <Route exact path="/login">
+                  <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                </Route>
+                <Route exact path="/signup">
+                  <Signup currentUser={currentUser} setCurrentUser={setCurrentUser} />
+                </Route>
+                <Route path="/books/:id">
+                  <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                </Route>
+                <Route exact path="/user">
+                  <User currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                </Route>
+                <Route exact path="/cart">
+                  <ShoppingCart currentUser={currentUser} setCurrentUser={setCurrentUser} currentCart={currentCart} handleCheckout={handleCheckout}/>
+                </Route>
+                <Route>
+                  {clientSecret && (
+                    <Elements stripe={stripePromise} options={options}>
+                      <CheckoutForm />
+                    </Elements>
+                  )}
+                </Route>
+              </Switch>
+            </Container>
         </Paper>
         : null}
       </React.Suspense>

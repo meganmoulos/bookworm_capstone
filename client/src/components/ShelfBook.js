@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 
-function ShelfBook({book, handleBookDetail}) {
+function ShelfBook({book, handleBookDetail, currentUser, handleAddToCart}) {
     
     return (
         <Container>
@@ -22,8 +23,12 @@ function ShelfBook({book, handleBookDetail}) {
                         <Typography variant="body2" color="text.secondary">
                             {book.author}
                         </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            ${book.price}
+                        </Typography>
                     </CardContent>
                 </Card>
+                <Button variant='contained' onClick={() => handleAddToCart(book)}>Add to Cart</Button>
         </Container>
     );
 }

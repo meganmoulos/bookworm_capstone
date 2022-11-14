@@ -4,7 +4,7 @@ import Rating from '@mui/material/Rating'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
-function Review({bookInfo, currentUser, setCurrentUser}) {
+function Review({bookInfo, currentUser}) {
     const reviews = bookInfo.reviews.length
     const [errors, setErrors] = useState([])
  
@@ -30,7 +30,7 @@ function Review({bookInfo, currentUser, setCurrentUser}) {
         })
         .then(res => {
             if(res.ok){
-                console.log("ok")
+                // add something here to rerender
             } else {
                 res.json().then(json => setErrors(json.errors))
             }
@@ -73,8 +73,7 @@ function Review({bookInfo, currentUser, setCurrentUser}) {
                         </Box>
                     </form>
                 </div>
-
-        }
+            }
         </div>
     );
 }

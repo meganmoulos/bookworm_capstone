@@ -16,7 +16,7 @@ import {useRecoilValue} from 'recoil'
 import {googleBooksState} from '../atoms'
 
 
-function Home({bookInfo, setBookInfo, handleBookDetail}) {
+function Home({handleBookDetail, currentUser, handleAddToCart}) {
     const [query, setQuery] = useState("potter+subject:fiction")
     const [newShelves, setNewShelves] = useState([])
     const googleBooks = useRecoilValue(googleBooksState(query))
@@ -46,7 +46,6 @@ function Home({bookInfo, setBookInfo, handleBookDetail}) {
         
         // If moving from googleBooks grid to shelf for the first time
         if (result.source.droppableId === 'googlegrid'){
-            console.log("google book")
             fetch('/books', {
                 method: 'POST',
                 headers: {'Content-Type':'application/json'},
@@ -99,7 +98,6 @@ function Home({bookInfo, setBookInfo, handleBookDetail}) {
             spacing={3}
             padding={3}
             >
-            
                 <Grid container item xs={3} sm={3} md={3}> 
                     <Grid item sx={{flexGrow: 1}}>
                         <h3>Currently Reading</h3>
@@ -138,7 +136,7 @@ function Home({bookInfo, setBookInfo, handleBookDetail}) {
                 </Grid>
                 <Grid container item>
                     <Container>
-                        <Shelves newShelves={newShelves} handleBookDetail={handleBookDetail} />
+                        <Shelves newShelves={newShelves} handleBookDetail={handleBookDetail} currentUser={currentUser} handleAddToCart={handleAddToCart}/>
                     </Container>
                 </Grid>
         </Grid>
