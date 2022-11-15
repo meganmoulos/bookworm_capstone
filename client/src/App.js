@@ -55,6 +55,7 @@ function App() {
             .then(history.push(`/books/${id}`))
           } else {
              res.json().then(json => setErrors(json.errors))
+             console.log(errors)
           }
         })  
   }
@@ -116,6 +117,8 @@ function App() {
     position: toast.POSITION.TOP_CENTER
   });
 
+
+
   return (
     <RecoilRoot>
       <React.Suspense fallback={<div>Loading...</div>}>
@@ -137,7 +140,7 @@ function App() {
                   <Route exact path="/home" render={() => {
                     return (
                         isAuthorizedState ? 
-                        <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail} currentUser={currentUser} handleAddToCart={handleAddToCart} searchQuery={searchQuery}/> :
+                        <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail} currentUser={currentUser} handleAddToCart={handleAddToCart} searchQuery={searchQuery} /> :
                         <Redirect to="/login" />
                     )
                   }}>

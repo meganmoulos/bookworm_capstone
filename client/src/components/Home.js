@@ -17,7 +17,7 @@ import {useRecoilValue} from 'recoil'
 import {googleBooksState} from '../atoms'
 
 
-function Home({handleBookDetail, currentUser, handleAddToCart, searchQuery}) {
+function Home({handleBookDetail, currentUser, handleAddToCart, searchQuery, anchorEl, setAnchorEl, handleGoogleBookDetail}) {
     const [query, setQuery] = useState("potter+subject:fiction")
     const [newShelves, setNewShelves] = useState([])
     const googleBooks = useRecoilValue(googleBooksState(query))

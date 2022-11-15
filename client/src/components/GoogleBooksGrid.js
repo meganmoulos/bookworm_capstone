@@ -21,7 +21,7 @@ function GoogleBooksGrid({query}) {
                                         {(provided) => (
                                             (<Grid item md={3} key={book.id} className='drop-list-item list-none text-red-400' ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                                 {book.volumeInfo.imageLinks ? 
-                                                <GoogleBook key={book.id} book={book}/> 
+                                                    <GoogleBook key={book.id} book={book} />
                                                 : null}
                                             </Grid>
                                             )

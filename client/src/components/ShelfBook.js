@@ -6,7 +6,7 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
-function ShelfBook({book, handleBookDetail, currentUser, handleAddToCart}) {
+function ShelfBook({book, handleBookDetail, handleAddToCart}) {
     
     return (
         <Container>

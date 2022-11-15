@@ -14,6 +14,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const theme = createTheme({
     palette: {
@@ -88,15 +89,15 @@ function Navbar({currentUser, setCurrentUser, searchQuery, setSearchQuery}) {
                                     value={searchQuery}
                                     onChange={e => setSearchQuery(e.target.value)}
                                 />
-                                <Typography padding={1}>
-                                    <NavLink
+                                <NavLink
                                     to='/cart'
                                     exact
                                     style = {{textDecoration: 'none', color: 'black'}}
-                                    >
-                                        Shopping Cart
-                                    </NavLink>
-                                </Typography>
+                                >
+                                    <ListItemIcon sx={{padding: 2}}>
+                                        <ShoppingCartIcon fontSize="medium" />
+                                    </ListItemIcon>
+                                </NavLink>
                                 <Box padding={1}>
                                     <Avatar
                                         sx={{ width: 40, height: 40 }}

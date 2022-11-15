@@ -35,6 +35,7 @@ function Review({bookInfo, setBookInfo, currentUser}) {
                 })
             } else {
                 res.json().then(json => setErrors(json.errors))
+                console.log(errors)
             }
         })
     }
