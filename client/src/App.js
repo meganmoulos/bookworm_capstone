@@ -14,6 +14,8 @@ import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 import ShoppingCart from "./components/ShoppingCart";
 import CheckoutForm from "./components/CheckoutForm"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const stripePromise = loadStripe("pk_test_w1U3RM7m1e0bfN4il6FiN6jg")
 
@@ -25,7 +27,7 @@ function App() {
   const [currentCart, setCurrentCart] = useState([])
   let history = useHistory()
   const [clientSecret, setClientSecret] = useState("")
-  let sum = currentCart.reduce((total, currentValue) => total + parseFloat(currentValue.book.price), 0)
+  const [searchQuery, setSearchQuery] = useState("")
   
   useEffect(() => {
     fetch('/sessions/current')
@@ -53,6 +55,7 @@ function App() {
             .then(history.push(`/books/${id}`))
           } else {
              res.json().then(json => setErrors(json.errors))
+             console.log(errors)
           }
         })  
   }
@@ -72,6 +75,7 @@ function App() {
     .then(data => setCurrentCart(
       [...currentCart, data]
     ))
+    addToCart()
   }
 
   function handleCheckout(){
@@ -104,56 +108,69 @@ function App() {
     appearance,
   };
 
+  // Toastify
+  const addToCart = () => toast('Added to cart!', {
+    position: toast.POSITION.TOP_CENTER
+  });
   
+  const finishedCheckout = () => toast('Checkout complete!', {
+    position: toast.POSITION.TOP_CENTER
+  });
+
+
+
   return (
     <RecoilRoot>
       <React.Suspense fallback={<div>Loading...</div>}>
       {!loading ? 
-        <Paper sx={{backgroundColor: '#fff9f5'}}>
-            <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
-            <Container className="App">
-              <Switch>
-                <Route exact path="/" render={() => {
-                  return (
-                      isAuthorizedState ? 
-                      <Redirect to="/home" /> :
-                      <Redirect to="/login" />
-                  )
-                }}>
-                </Route>
-                <Route exact path="/home" render={() => {
-                  return (
-                      isAuthorizedState ? 
-                      <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail} currentUser={currentUser} handleAddToCart={handleAddToCart}/> :
-                      <Redirect to="/login" />
-                  )
-                }}>
-                </Route>
-                <Route exact path="/login">
-                  <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-                </Route>
-                <Route exact path="/signup">
-                  <Signup currentUser={currentUser} setCurrentUser={setCurrentUser} />
-                </Route>
-                <Route path="/books/:id">
-                  <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-                </Route>
-                <Route exact path="/user">
-                  <User currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-                </Route>
-                <Route exact path="/cart">
-                  <ShoppingCart currentUser={currentUser} setCurrentUser={setCurrentUser} currentCart={currentCart} handleCheckout={handleCheckout}/>
-                </Route>
-                <Route>
-                  {clientSecret && (
-                    <Elements stripe={stripePromise} options={options}>
-                      <CheckoutForm />
-                    </Elements>
-                  )}
-                </Route>
-              </Switch>
-            </Container>
-        </Paper>
+        <>
+          <ToastContainer />
+          <Paper sx={{backgroundColor: '#fff9f5'}}>
+              <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+              <Container className="App">
+                <Switch>
+                  <Route exact path="/" render={() => {
+                    return (
+                        isAuthorizedState ? 
+                        <Redirect to="/home" /> :
+                        <Redirect to="/login" />
+                    )
+                  }}>
+                  </Route>
+                  <Route exact path="/home" render={() => {
+                    return (
+                        isAuthorizedState ? 
+                        <Home bookInfo={bookInfo} setBookInfo={setBookInfo} handleBookDetail={handleBookDetail} currentUser={currentUser} handleAddToCart={handleAddToCart} searchQuery={searchQuery} /> :
+                        <Redirect to="/login" />
+                    )
+                  }}>
+                  </Route>
+                  <Route exact path="/login">
+                    <Login currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                  </Route>
+                  <Route exact path="/signup">
+                    <Signup currentUser={currentUser} setCurrentUser={setCurrentUser} />
+                  </Route>
+                  <Route path="/books/:id">
+                    <BookDetail bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                  </Route>
+                  <Route exact path="/user">
+                    <User currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                  </Route>
+                  <Route exact path="/cart">
+                    <ShoppingCart currentUser={currentUser} setCurrentUser={setCurrentUser} currentCart={currentCart} handleCheckout={handleCheckout}/>
+                  </Route>
+                  <Route>
+                    {clientSecret && (
+                      <Elements stripe={stripePromise} options={options}>
+                        <CheckoutForm />
+                      </Elements>
+                    )}
+                  </Route>
+                </Switch>
+              </Container>
+          </Paper>
+        </>
         : null}
       </React.Suspense>
     </RecoilRoot>

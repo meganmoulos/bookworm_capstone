@@ -5,7 +5,7 @@ class BooksController < ApplicationController
     end
 
     def show
-        book = Book.find(params[:id])
+        book = Book.joins("LEFT OUTER JOIN reviews ON books.id = reviews.book_id AND reviews.user_id = #{@current_user.id}").find(params[:id])
         render json: book
     end
 

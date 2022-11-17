@@ -4,20 +4,17 @@ import Rating from '@mui/material/Rating'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
-function Review({bookInfo, currentUser}) {
-    const reviews = bookInfo.reviews.length
+function Review({bookInfo, setBookInfo, currentUser}) {
     const [errors, setErrors] = useState([])
- 
-    const [user, setUser] = useState(currentUser)
-    const [book, setBook] = useState(bookInfo)
     const [starRating, setStarRating] = useState(0)
     const [userComment, setUserComment] = useState('')
+  
 
     function handleSubmit(e){
         e.preventDefault()
         const review = {
-            user_id: user.id,
-            book_id: book.id,
+            user_id: currentUser.id,
+            book_id: bookInfo.id,
             star_rating: starRating,
             comment: userComment
         }
@@ -30,16 +27,22 @@ function Review({bookInfo, currentUser}) {
         })
         .then(res => {
             if(res.ok){
-                // add something here to rerender
+                res.json().then(data => {
+                    setBookInfo({
+                        ...bookInfo,
+                        reviews: [data]
+                    })
+                })
             } else {
                 res.json().then(json => setErrors(json.errors))
+                console.log(errors)
             }
         })
     }
 
     return (
         <div>
-            {(reviews > 0) ? 
+            {(bookInfo.reviews.length > 0) ? 
                 <div>
                     <Rating name="bookrating" value={bookInfo.reviews[0].star_rating} readOnly/>
                     <Typography gutterBottom variant="body2" component="div">

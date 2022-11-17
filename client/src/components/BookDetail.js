@@ -5,10 +5,10 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Review from './Review';
 
-function BookDetail({bookInfo, currentUser, setCurrentUser}) {
+function BookDetail({bookInfo, setBookInfo, currentUser, setCurrentUser}) {
 
     return (
-        <Container sx={{ width: 600 }}>
+        <Container sx={{ width: 800 }}>
             <Paper elevation={2}>
                 <Box padding={3}>
                     <img src = {bookInfo.cover_image} alt={bookInfo.title}/>
@@ -34,7 +34,7 @@ function BookDetail({bookInfo, currentUser, setCurrentUser}) {
             <Paper elevation={2}>
                 <Box padding={3}> 
                     {bookInfo.id ?
-                        <Review bookInfo={bookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                        <Review bookInfo={bookInfo} setBookInfo={setBookInfo} currentUser={currentUser} setCurrentUser={setCurrentUser} />
                     : null
                     }
                 </Box>

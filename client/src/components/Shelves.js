@@ -1,6 +1,4 @@
-import React, {useState} from 'react';
-import Grid from '@mui/material/Grid'
-import Container from '@mui/material/Container'
+import React from 'react';
 import Shelf from './Shelf';
 import {Droppable} from "react-beautiful-dnd";
 
